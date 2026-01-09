@@ -1,15 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The unAgency | Creative Studio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            overflow-x: hidden;
+        }
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>The unAgency-2</title>
-    </head>
+        .glass-input {
+            background: transparent;
+            border-bottom: 1px solid #333;
+            transition: all 0.4s ease;
+        }
 
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
-  
+        .glass-input:focus {
+            border-color: #fff;
+            outline: none;
+            padding-left: 10px;
+        }
+
+        .hover-italic:hover {
+            font-style: italic;
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed w-full z-50 p-6 flex justify-between items-center mix-blend-difference">
+        <div class="text-xl font-bold tracking-tighter">THE unAGENCY</div>
+        <div class="space-x-8 text-xs uppercase tracking-widest hidden md:block">
+            <a href="#" class="hover:opacity-50">Work</a>
+            <a href="#" class="hover:opacity-50">About</a>
+            <a href="#contact" class="hover:opacity-50">Contact</a>
+        </div>
+    </nav>
+
+    <section class="h-screen flex flex-col items-center justify-center relative px-4">
+        <h1 class="text-[12vw] leading-none font-bold tracking-tighter uppercase text-center" data-aos="zoom-out" data-aos-duration="1500">
+            The unAgency
+        </h1>
+        <p class="mt-8 text-neutral-500 tracking-[0.5em] text-xs uppercase" data-aos="fade-up" data-aos-delay="500">
+            Creative Strategy & Digital Design
+        </p>
+        <div class="absolute bottom-10 animate-bounce text-neutral-700">↓</div>
+    </section>
+
+    <footer id="contact" class="relative z-10 bg-black pt-32 pb-12 px-5 md:px-20 border-t border-neutral-900">
+        <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
+            
+            <div data-aos="fade-right">
+                <h2 class="text-5xl md:text-7xl font-mono mb-16 tracking-tighter uppercase">Let's Talk</h2>
+                <form class="space-y-12 max-w-xl">
+                    <div class="relative">
+                        <input type="text" placeholder="NAME" class="w-full glass-input py-4 text-xl placeholder:text-neutral-600">
+                    </div>
+                    <div class="relative">
+                        <input type="email" placeholder="EMAIL" class="w-full glass-input py-4 text-xl placeholder:text-neutral-600">
+                    </div>
+                    <div class="relative">
+                        <textarea placeholder="MESSAGE" rows="1" class="w-full glass-input py-4 text-xl placeholder:text-neutral-600 resize-none"></textarea>
+                    </div>
+                    <button type="button" class="group flex items-center gap-4 text-xl uppercase tracking-widest pt-8 hover:text-neutral-400 transition-all">
+                        Send Inquiry <span class="group-hover:translate-x-3 transition-transform duration-300">→</span>
+                    </button>
+                </form>
+            </div>
+
+            <div class="flex flex-col justify-between" data-aos="fade-left">
+                <div class="space-y-12">
+                    <div class="border-t border-neutral-800 pt-8">
+                        <h3 class="text-[10px] text-neutral-500 uppercase tracking-[0.3em] mb-8">Locations</h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-baseline justify-between group">
+                                <span class="text-3xl font-light hover-italic cursor-default">San Diego</span>
+                                <span class="text-xs text-neutral-500">USA / PST</span>
+                            </li>
+                            <li class="flex items-baseline justify-between group">
+                                <span class="text-3xl font-light hover-italic cursor-default">Tijuana</span>
+                                <span class="text-xs text-neutral-500">MX / PST</span>
+                            </li>
+                            <li class="flex items-baseline justify-between group">
+                                <span class="text-3xl font-light hover-italic cursor-default">London</span>
+                                <span class="text-xs text-neutral-500">UK / GMT</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="border-t border-neutral-800 pt-8">
+                        <h3 class="text-[10px] text-neutral-500 uppercase tracking-[0.3em] mb-8">Direct</h3>
+                        <a href="mailto:hello@theunagencyco.com" class="text-xl hover:italic transition-all">hello@theunagencyco.com</a>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-end mt-24 text-[10px] text-neutral-600 uppercase tracking-widest">
+                    <span>© 2024 The unAgency</span>
+                    <div class="flex gap-6">
+                        <a href="#" class="hover:text-white transition-colors">Instagram</a>
+                        <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
+</body>
+</html>
