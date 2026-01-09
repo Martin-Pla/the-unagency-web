@@ -1,204 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The unAgency | Creative Studio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/framer-motion@11.0.8/dist/framer-motion.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-        
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Space Mono', monospace;
-            overflow-x: hidden;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The unAgency</title>
 
-        /* Estilos inspirados en card.tsx y carousel.tsx */
-        .embla {
-            overflow: hidden;
-            cursor: grab;
-        }
-        .embla__container {
-            display: flex;
-        }
-        .embla__slide {
-            flex: 0 0 80%; /* En móvil se ve 80% de la sig. card */
-            min-width: 0;
-            padding-right: 1rem;
-        }
-        @media (min-width: 768px) {
-            .embla__slide { flex: 0 0 40%; }
-        }
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-        .project-card {
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #0a0a0a;
-        }
+  <!-- GSAP for animations -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
 
-        .project-card:hover {
-            border-color: #f0f0f0;
-            transform: translateY(-10px);
-        }
+  <style>
+    :root {
+      --mono: 'Space Mono', monospace;
+      --sans: 'Inter', sans-serif;
+      --bg: #0a0a0a;
+      --fg: #ffffff;
+      --muted: #888;
+    }
 
-        /* Glassmorphism para Dialogs (dialog.tsx) */
-        .modal-overlay {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--sans);
+      overflow-x: hidden;
+    }
+
+    section {
+      padding: 120px 5vw;
+      position: relative;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--mono);
+      letter-spacing: -0.04em;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 32px 5vw;
+      display: flex;
+      justify-content: space-between;
+      z-index: 50;
+      mix-blend-mode: difference;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 40px;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .hero img {
+      width: 80vw;
+      max-width: 900px;
+      margin-bottom: 40px;
+    }
+
+    .hero p {
+      font-family: var(--mono);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 600px;
+      margin: auto;
+    }
+
+    /* ABOUT */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 80px;
+    }
+
+    .about h2 {
+      font-size: 48px;
+    }
+
+    .about h3 {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: clamp(32px, 5vw, 64px);
+      margin-bottom: 40px;
+      color: #ddd;
+    }
+
+    .about p {
+      color: #aaa;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* CONTACT */
+    footer {
+      border-top: 1px solid #222;
+    }
+
+    input, textarea {
+      width: 100%;
+      background: none;
+      border: none;
+      border-bottom: 1px solid #444;
+      padding: 16px 0;
+      font-family: var(--mono);
+      font-size: 18px;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: white;
+      font-family: var(--mono);
+      letter-spacing: 0.2em;
+      cursor: pointer;
+    }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .about {
+        grid-template-columns: 1fr;
+      }
+
+      nav a {
+        margin-left: 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <nav class="fixed top-0 w-full z-50 px-6 py-6 flex justify-between items-center mix-blend-difference">
-        <div class="text-lg font-bold tracking-tighter">THE UNAGENCY</div>
-        <div class="hidden md:flex gap-8 text-xs tracking-widest">
-            <a href="#work" class="hover:opacity-50 transition">WORK</a>
-            <a href="#agency" class="hover:opacity-50 transition">AGENCY</a>
-            <a href="#contact" class="hover:opacity-50 transition">CONTACT</a>
-        </div>
-        <button class="md:hidden" id="menu-trigger">
-            <i data-lucide="menu"></i>
-        </button>
-    </nav>
-
-    <section class="h-screen flex flex-col justify-center items-center relative px-6">
-        <h1 class="text-[12vw] leading-none font-bold tracking-tighter text-center">
-            WE BUILD <br> <span class="text-neutral-500">DIGITAL DEFIANCE</span>
-        </h1>
-        <div class="absolute bottom-10 animate-bounce">
-            <i data-lucide="arrow-down"></i>
-        </div>
-    </section>
-
-    <section id="work" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto mb-12 flex justify-between items-end">
-            <h2 class="text-4xl font-bold uppercase">Featured Work</h2>
-            <div class="flex gap-2">
-                <button class="p-2 border border-neutral-800 rounded-full hover:bg-white hover:text-black transition" id="prev">
-                    <i data-lucide="chevron-left"></i>
-                </button>
-                <button class="p-2 border border-neutral-800 rounded-full hover:bg-white hover:text-black transition" id="next">
-                    <i data-lucide="chevron-right"></i>
-                </button>
-            </div>
-        </div>
-
-        <div class="embla" id="embla">
-            <div class="embla__container">
-                <div class="embla__slide">
-                    <div class="project-card group cursor-pointer" onclick="openProject('CASAREY', 'Branding & UX')">
-                        <div class="aspect-[4/5] bg-neutral-900 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1504198453319-5ce911baf2ea?q=80&w=1000" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Casarey">
-                        </div>
-                        <div class="p-6">
-                            <p class="text-[10px] text-neutral-500 mb-2 tracking-[0.2em]">01 / BRANDING</p>
-                            <h3 class="text-2xl font-bold">CASAREY</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="embla__slide">
-                    <div class="project-card group cursor-pointer" onclick="openProject('BLACK AGNES', 'Digital Strategy')">
-                        <div class="aspect-[4/5] bg-neutral-900 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1493106819501-66d381c466f1?q=80&w=1000" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Black Agnes">
-                        </div>
-                        <div class="p-6">
-                            <p class="text-[10px] text-neutral-500 mb-2 tracking-[0.2em]">02 / STRATEGY</p>
-                            <h3 class="text-2xl font-bold">BLACK AGNES</h3>
-                        </div>
-                    </div>
-                </div>
-                <div class="embla__slide">
-                    <div class="project-card group cursor-pointer" onclick="openProject('AVE DE FUEGO', 'Packaging')">
-                        <div class="aspect-[4/5] bg-neutral-900 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=1000" class="w-full h-full object-cover group-hover:scale-105 transition duration-700" alt="Ave de Fuego">
-                        </div>
-                        <div class="p-6">
-                            <p class="text-[10px] text-neutral-500 mb-2 tracking-[0.2em]">03 / DESIGN</p>
-                            <h3 class="text-2xl font-bold">AVE DE FUEGO</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="modal-overlay" id="project-modal">
-        <div class="bg-[#0a0a0a] border border-neutral-800 p-8 max-w-2xl w-[90%] rounded-2xl relative">
-            <button class="absolute top-6 right-6" onclick="closeModal()">
-                <i data-lucide="x"></i>
-            </button>
-            <div id="modal-content">
-                </div>
-        </div>
+  <!-- NAV -->
+  <nav>
+    <div>THE UNAGENCY</div>
+    <div>
+      <a href="#about">AGENCY</a>
+      <a href="#contact">CONTACT</a>
     </div>
+  </nav>
 
-    <section id="contact" class="py-32 px-6 bg-white text-black">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-6xl font-bold tracking-tighter mb-8">HAVE A PROJECT?</h2>
-            <a href="mailto:hello@theunagencyco.com" class="text-2xl border-b-2 border-black pb-2 hover:opacity-50 transition">
-                LET'S TALK <i data-lucide="arrow-up-right" class="inline"></i>
-            </a>
-        </div>
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <img src="logo.png" alt="The unAgency">
+      <p>
+        Where creativity meets strategy.<br>
+        We don’t follow the rules — we rewrite them.
+      </p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about">
+      <h2>ABOUT</h2>
+      <div>
+        <h3>
+          We are the <em>glitch</em> in the agency model.
+        </h3>
+        <p>
+          Traditional agencies sell time and bloated processes.
+          We sell impact. No middle management. No noise.
+          Only elite talent and relentless execution.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <footer id="contact">
+    <section>
+      <h2 style="font-size:64px;margin-bottom:60px;">LET’S TALK</h2>
+
+      <input type="text" placeholder="NAME">
+      <input type="email" placeholder="EMAIL">
+      <textarea rows="1" placeholder="MESSAGE"></textarea>
+
+      <button>SEND INQUIRY →</button>
+
+      <div style="margin-top:120px;font-family:var(--mono);font-size:12px;color:#666;display:flex;justify-content:space-between;">
+        <span>© 2026 The unAgency</span>
+        <span>Instagram · LinkedIn</span>
+      </div>
     </section>
+  </footer>
 
-    <script>
-        // Inicializar Iconos
-        lucide.createIcons();
+  <!-- ANIMATIONS -->
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
 
-        // Lógica de Carrusel (Embla)
-        const emblaNode = document.querySelector('#embla');
-        const options = { loop: true, align: 'start' };
-        const emblaApi = EmblaCarousel(emblaNode, options);
+    gsap.from(".hero img", {
+      opacity: 0,
+      scale: 0.9,
+      duration: 1.5,
+      ease: "power3.out"
+    });
 
-        document.getElementById('prev').addEventListener('click', () => emblaApi.scrollPrev());
-        document.getElementById('next').addEventListener('click', () => emblaApi.scrollNext());
+    gsap.from(".about h2", {
+      scrollTrigger: ".about",
+      x: -60,
+      opacity: 0,
+      duration: 1
+    });
 
-        // Lógica de Dialog (Abrir detalles de proyecto)
-        const modal = document.getElementById('project-modal');
-        const modalContent = document.getElementById('modal-content');
+    gsap.from(".about h3, .about p", {
+      scrollTrigger: ".about",
+      y: 60,
+      opacity: 0,
+      stagger: 0.2,
+      duration: 1
+    });
+  </script>
 
-        function openProject(title, category) {
-            modalContent.innerHTML = `
-                <p class="text-neutral-500 text-xs mb-4 uppercase tracking-widest">${category}</p>
-                <h2 class="text-4xl font-bold mb-6">${title}</h2>
-                <p class="text-neutral-400 leading-relaxed mb-8">
-                    This is a deep dive into the ${title} project. We focused on pushing the boundaries 
-                    of conventional design to create an experience that truly resonates with the target audience.
-                </p>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="h-32 bg-neutral-900 rounded-lg"></div>
-                    <div class="h-32 bg-neutral-900 rounded-lg"></div>
-                </div>
-            `;
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            lucide.createIcons();
-        }
-
-        function closeModal() {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Cerrar modal al hacer clic fuera
-        window.onclick = (event) => {
-            if (event.target == modal) closeModal();
-        }
-    </script>
 </body>
 </html>
