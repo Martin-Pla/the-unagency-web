@@ -12,162 +12,140 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
         
-        :root { --accent: #ffffff; }
         body { 
-            background: #000; 
+            background: #050505; 
             color: #fff; 
             font-family: 'Space Mono', monospace; 
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* Textura de Ruido (Grit) */
+        /* Ruido sutil de fondo (Look Agency V2) */
         .noise::before {
             content: "";
             position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: 9999;
             pointer-events: none;
-            opacity: 0.05;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
-        /* Fondo Fluido Animado */
-        .blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
-            opacity: 0.25;
-            animation: move 20s infinite alternate;
+        /* Transiciones suaves para links */
+        a, button { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Estilo de la grilla de proyectos */
+        .project-card {
+            border: 1px solid #151515;
+            transition: border-color 0.5s ease;
+        }
+        .project-card:hover {
+            border-color: #444;
+        }
+        .project-img {
+            filter: grayscale(100%) contrast(1.1);
+            transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .project-card:hover .project-img {
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.03);
         }
 
-        @keyframes move {
-            from { transform: translate(-10%, -10%) scale(1); }
-            to { transform: translate(20%, 20%) scale(1.2); }
-        }
-
-        /* Marquee infinito corregido */
-        .marquee-container {
+        /* Marquee infinito */
+        .marquee {
             display: flex;
             overflow: hidden;
-            width: 100%;
+            user-select: none;
+            gap: 4rem;
+            padding: 2rem 0;
             border-top: 1px solid #111;
-            padding: 60px 0;
+            border-bottom: 1px solid #111;
         }
         .marquee-content {
             display: flex;
-            white-space: nowrap;
-            animation: scroll 30s linear infinite;
+            gap: 4rem;
+            animation: scroll 40s linear infinite;
         }
         @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
         }
 
-        /* Navegación que aparece al scroll */
-        nav {
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .nav-hidden { transform: translateY(-100%); opacity: 0; }
-        .nav-visible { transform: translateY(0); opacity: 1; }
-
-        .project-card {
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #111;
-        }
-        .project-card img {
-            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
-            filter: grayscale(100%) brightness(0.7);
-        }
-        .project-card:hover img {
-            transform: scale(1.05);
-            filter: grayscale(0%) brightness(1);
-        }
+        /* Nav especial */
+        nav { mix-blend-difference: exclusion; }
     </style>
 </head>
 <body class="noise">
 
-    <div class="blob w-[600px] h-[600px] bg-neutral-800 top-[-100px] left-[-100px]"></div>
-    <div class="blob w-[500px] h-[500px] bg-zinc-900 bottom-[-100px] right-[-100px]" style="animation-delay: -5s;"></div>
-
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-8 md:px-20 mix-blend-difference nav-hidden">
-        <div class="text-sm font-bold tracking-[0.3em] uppercase">The unAgency</div>
-        <div class="flex gap-12 text-[10px] tracking-[0.4em] uppercase font-bold">
-            <a href="#projects" class="hover:text-neutral-500 transition-colors">Work</a>
-            <a href="#about" class="hover:text-neutral-500 transition-colors">Agency</a>
-            <a href="#contact" class="hover:text-neutral-500 transition-colors">Contact</a>
+    <nav class="fixed top-0 w-full z-50 flex justify-between px-6 py-8 md:px-20 items-center">
+        <div class="font-bold tracking-[0.4em] text-xs uppercase">The unAgency</div>
+        <div class="hidden md:flex gap-12 text-[10px] tracking-[0.3em] font-bold">
+            <a href="#projects" class="hover:opacity-50">WORK</a>
+            <a href="#about" class="hover:opacity-50">AGENCY</a>
+            <a href="#contact" class="hover:opacity-50">CONTACT</a>
         </div>
     </nav>
 
-    <section class="h-screen flex flex-col items-center justify-center relative">
-        <div class="z-10 text-center" data-aos="zoom-in" data-aos-duration="1500">
-            <img src="assets/73fc6d9c98f3c8b428987b1b0c9ff057d036651c.png" class="w-20 mx-auto mb-10 opacity-80" alt="Logo">
-            <h1 class="text-[14vw] md:text-[12vw] font-bold leading-none tracking-tighter uppercase">
-                The unAgency
-            </h1>
-            <p class="mt-6 text-[10px] tracking-[0.6em] text-neutral-600 uppercase italic">
-                The glitch in the agency model
-            </p>
-        </div>
-        
-        <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] select-none pointer-events-none">
-            <h2 class="text-[25vw] font-bold">UNAGENCY</h2>
-        </div>
+    <section class="h-screen flex flex-col items-center justify-center relative px-6 text-center">
+        <img src="assets/73fc6d9c98f3c8b428987b1b0c9ff057d036651c.png" class="w-16 mb-12 opacity-90" data-aos="fade-down">
+        <h1 class="text-[13vw] leading-[0.85] font-bold tracking-tighter uppercase mb-8" data-aos="zoom-out" data-aos-delay="200">
+            The unAgency
+        </h1>
+        <p class="text-[10px] tracking-[0.8em] text-neutral-500 uppercase italic" data-aos="fade-up" data-aos-delay="600">
+            The glitch in the agency model
+        </p>
     </section>
 
-    <section id="about" class="py-40 px-6 md:px-20">
-        <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20">
+    <section id="about" class="py-40 px-6 md:px-20 bg-[#080808]">
+        <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div class="lg:col-span-4 sticky top-40 h-fit">
-                <h2 class="text-4xl font-mono uppercase text-neutral-700" data-aos="fade-right">01 / About</h2>
+                <h2 class="text-3xl font-bold tracking-tighter text-neutral-800" data-aos="fade-right">01 / ABOUT</h2>
             </div>
             <div class="lg:col-span-8">
-                <h3 class="text-4xl md:text-7xl font-light leading-tight mb-20" data-aos="fade-up">
-                    We are the <span class="italic font-bold">glitch</span> in the model. Collective of rogue creatives.
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-neutral-500 text-sm leading-relaxed border-t border-neutral-900 pt-16">
-                    <p>Traditional agencies sell time. We sell impact. Surgically removed middle-management. Pure potency.</p>
-                    <p>Radical transparency. We don't just build products; we engineer market dominance.</p>
+                <p class="text-4xl md:text-6xl font-light leading-tight mb-16" data-aos="fade-up">
+                    We've surgically removed the <span class="italic font-bold text-white">bloat</span>. What remains is pure impact.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-neutral-500 text-sm border-t border-neutral-900 pt-16">
+                    <p>Traditional agencies sell hours. We sell market dominance. No account managers. No fluff. Just elite talent working directly with you.</p>
+                    <p>Born in the gap between high-end design and radical execution. We are the glitch that works.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="marquee-container">
-        <div class="marquee-content text-4xl md:text-6xl font-bold text-neutral-900 uppercase italic">
-            <span>JMRPACKING</span> <span class="text-neutral-800">TBG GOLF</span> <span>BELTECH</span> <span class="text-neutral-800">CASTELLANA</span> <span>NUWA STONE</span> <span>NORTHWEST</span>
-            <span>JMRPACKING</span> <span class="text-neutral-800">TBG GOLF</span> <span>BELTECH</span> <span class="text-neutral-800">CASTELLANA</span> <span>NUWA STONE</span> <span>NORTHWEST</span>
+    <div class="marquee">
+        <div class="marquee-content text-4xl md:text-6xl font-bold text-neutral-900 uppercase">
+            <span>JMRPACKING</span> <span>TBG GOLF</span> <span>BELTECH</span> <span>CASTELLANA</span> <span>NUWA STONE</span> <span>NORTHWEST</span>
+            <span>JMRPACKING</span> <span>TBG GOLF</span> <span>BELTECH</span> <span>CASTELLANA</span> <span>NUWA STONE</span> <span>NORTHWEST</span>
         </div>
     </div>
 
     <section id="projects" class="py-40 px-6 md:px-20">
         <div class="max-w-[1800px] mx-auto">
-            <h2 class="text-4xl font-mono mb-20 text-neutral-700 uppercase" data-aos="fade-right">02 / Selected Works</h2>
-            <div class="grid grid-cols-1 md:grid-cols-6 gap-6 md:gap-12">
+            <h2 class="text-3xl font-bold mb-20 text-neutral-800" data-aos="fade-right">02 / PROJECTS</h2>
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
                 
-                <div class="md:col-span-6 project-card group" data-aos="fade-up">
+                <div class="md:col-span-12 project-card group" data-aos="fade-up">
                     <div class="aspect-[21/9] overflow-hidden">
-                        <img src="assets/8fdb56a539d6e9e8ce6cf447c18ae75f93c48bd2.png" class="w-full h-full object-cover">
+                        <img src="assets/8fdb56a539d6e9e8ce6cf447c18ae75f93c48bd2.png" class="w-full h-full object-cover project-img">
                     </div>
-                    <div class="p-8 flex justify-between items-center border-t border-neutral-900">
-                        <span class="text-2xl font-bold italic">TEQUILA CASAREY</span>
-                        <span class="text-[10px] tracking-widest text-neutral-600">PACKAGING</span>
+                    <div class="p-8 flex justify-between items-center border-t border-[#151515]">
+                        <h3 class="text-2xl font-bold italic tracking-tighter">TEQUILA CASAREY</h3>
+                        <span class="text-[10px] tracking-widest text-neutral-600">PACKAGING DESIGN</span>
                     </div>
                 </div>
 
-                <div class="md:col-span-3 project-card group" data-aos="fade-right">
+                <div class="md:col-span-6 project-card group" data-aos="fade-right">
                     <div class="aspect-[4/3] overflow-hidden">
-                        <img src="assets/283b5359742fffc9889b0e4e829f4226488a5f47.png" class="w-full h-full object-cover">
+                        <img src="assets/283b5359742fffc9889b0e4e829f4226488a5f47.png" class="w-full h-full object-cover project-img">
                     </div>
-                    <div class="p-8 border-t border-neutral-900 italic text-xl">GALLUS</div>
+                    <div class="p-8 border-t border-[#151515] italic text-xl">GALLUS</div>
                 </div>
 
-                <div class="md:col-span-3 project-card group" data-aos="fade-left">
+                <div class="md:col-span-6 project-card group" data-aos="fade-left">
                     <div class="aspect-[4/3] overflow-hidden">
-                        <img src="assets/4f63484a785ea90bf1c37f921dc7bccd2e709b79.png" class="w-full h-full object-cover">
+                        <img src="assets/4f63484a785ea90bf1c37f921dc7bccd2e709b79.png" class="w-full h-full object-cover project-img">
                     </div>
-                    <div class="p-8 border-t border-neutral-900 italic text-xl">AVE DE FUEGO</div>
+                    <div class="p-8 border-t border-[#151515] italic text-xl">AVE DE FUEGO</div>
                 </div>
 
             </div>
@@ -176,51 +154,30 @@
 
     <footer id="contact" class="py-40 px-6 md:px-20 border-t border-neutral-900">
         <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32">
-            <div data-aos="fade-up">
-                <h2 class="text-7xl md:text-9xl font-bold tracking-tighter uppercase mb-16">Talk</h2>
-                <form class="space-y-12">
-                    <input type="text" placeholder="NAME" class="w-full py-6 text-xl uppercase font-bold tracking-widest">
-                    <input type="email" placeholder="EMAIL" class="w-full py-6 text-xl uppercase font-bold tracking-widest">
-                    <textarea placeholder="MESSAGE" rows="1" class="w-full py-6 text-xl uppercase font-bold tracking-widest resize-none"></textarea>
-                    <button class="text-2xl uppercase tracking-tighter italic font-bold hover:translate-x-4 transition-transform duration-500">Send Inquiry →</button>
+            <div>
+                <h2 class="text-7xl md:text-9xl font-bold tracking-tighter uppercase mb-12">TALK</h2>
+                <form class="space-y-10">
+                    <input type="text" placeholder="NAME" class="w-full bg-transparent border-b border-neutral-800 py-4 focus:outline-none focus:border-white transition-all text-xl">
+                    <input type="email" placeholder="EMAIL" class="w-full bg-transparent border-b border-neutral-800 py-4 focus:outline-none focus:border-white transition-all text-xl">
+                    <button class="text-2xl italic font-bold hover:pl-4 transition-all uppercase">Send Inquiry →</button>
                 </form>
             </div>
-            <div class="flex flex-col justify-between pt-10" data-aos="fade-left">
-                <div class="border-t border-neutral-900 pt-10">
-                    <span class="text-neutral-700 text-[10px] uppercase tracking-[0.4em] block mb-10">Global presence</span>
-                    <div class="text-4xl font-light space-y-4">
-                        <p class="hover:italic cursor-default">San Diego <span class="text-xs text-neutral-800 ml-4">USA</span></p>
-                        <p class="hover:italic cursor-default">London <span class="text-xs text-neutral-800 ml-4">UK</span></p>
-                    </div>
+            <div class="flex flex-col justify-between pt-10">
+                <div class="space-y-4 text-3xl font-light">
+                    <p class="hover:italic">San Diego</p>
+                    <p class="hover:italic">Tijuana</p>
+                    <p class="hover:italic">London</p>
                 </div>
                 <div class="mt-20">
-                    <a href="mailto:hello@theunagencyco.com" class="text-2xl border-b border-white pb-2 hover:text-neutral-400 transition-colors">hello@theunagencyco.com</a>
-                    <p class="text-[10px] text-neutral-800 mt-12 tracking-widest">© 2026 THE UNAGENCY CO.</p>
+                    <a href="mailto:hello@theunagencyco.com" class="text-xl border-b border-white pb-1">hello@theunagencyco.com</a>
+                    <p class="text-[10px] text-neutral-800 mt-12 tracking-widest uppercase">© 2026 THE UNAGENCY CO.</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        AOS.init({ duration: 1000, once: true, easing: 'ease-out-quart' });
-
-        // Lógica de Navegación (Aparece al hacer scroll)
-        const nav = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 150) {
-                nav.classList.remove('nav-hidden');
-                nav.classList.add('nav-visible');
-            } else {
-                nav.classList.add('nav-hidden');
-                nav.classList.remove('nav-visible');
-            }
-        });
-
-        // Parallax para el Hero (Sutil)
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            document.querySelector('h1').style.transform = `translateY(${scrolled * 0.2}px)`;
-        });
+        AOS.init({ duration: 1000, once: true });
     </script>
 </body>
 </html>
