@@ -1,15 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The unAgency | Contact</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body class="bg-black">
 
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>The unAgency-2</title>
-    </head>
+    <footer id="contact" class="relative z-10 bg-black text-white pt-32 pb-12 px-5 md:px-20 border-t border-neutral-900">
+        <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
+            
+            <div>
+                <h2 class="text-5xl md:text-7xl font-mono mb-16 tracking-tighter">LET'S TALK</h2>
+                <form class="space-y-12 max-w-xl">
+                    <input type="text" placeholder="NAME" class="w-full bg-transparent border-b border-neutral-700 py-4 text-xl font-mono focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600">
+                    <input type="email" placeholder="EMAIL" class="w-full bg-transparent border-b border-neutral-700 py-4 text-xl font-mono focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600">
+                    <textarea placeholder="MESSAGE" rows="1" class="w-full bg-transparent border-b border-neutral-700 py-4 text-xl font-mono focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600 resize-none"></textarea>
+                    
+                    <button type="button" class="group flex items-center gap-4 text-xl font-mono uppercase tracking-widest hover:text-neutral-400 transition-colors pt-8">
+                        Send Inquiry <span>→</span>
+                    </button>
+                </form>
+            </div>
 
-    <body>
-      <div id="root"></div>
-      <script type="module" src="/src/main.tsx"></script>
-    </body>
-  </html>
-  
+            <div class="flex flex-col justify-between">
+                <div class="space-y-12">
+                    <div class="border-t border-neutral-800 pt-8">
+                        <h3 class="text-xs font-mono text-neutral-500 uppercase tracking-[0.2em] mb-8">Locations</h3>
+                        <ul class="space-y-6">
+                            <li class="flex items-baseline justify-between">
+                                <span class="text-3xl font-light">San Diego</span>
+                                <span class="text-sm font-mono text-neutral-500">USA PST</span>
+                            </li>
+                            <li class="flex items-baseline justify-between">
+                                <span class="text-3xl font-light">Tijuana</span>
+                                <span class="text-sm font-mono text-neutral-500">MX PST</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-end mt-24 text-xs font-mono text-neutral-600 uppercase">
+                    <span>© 2024 The unAgency</span>
+                    <div class="flex gap-6">
+                        <a href="#" class="hover:text-white">Instagram</a>
+                        <a href="#" class="hover:text-white">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
