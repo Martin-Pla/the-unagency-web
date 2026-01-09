@@ -8,160 +8,218 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.16.4/framer-motion.umd.min.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
         
-        :root { --bg: #000; --text: #fff; }
-        body { background: var(--bg); color: var(--text); font-family: 'Space Mono', monospace; overflow-x: hidden; margin: 0; }
-        
-        /* Fondo Fluido (de FluidBackground.tsx) */
-        .fluid-bg { position: fixed; inset: 0; z-index: -1; background: #000; overflow: hidden; pointer-events: none; }
-        .blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.3; animation: float 25s infinite ease-in-out; }
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(100px, -50px) scale(1.2); }
-            66% { transform: translate(-100px, 50px) scale(0.8); }
+        :root { --accent: #ffffff; }
+        body { 
+            background: #000; 
+            color: #fff; 
+            font-family: 'Space Mono', monospace; 
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Marquee (de About.tsx) */
-        .marquee { display: flex; overflow: hidden; border-top: 1px solid #171717; padding: 4rem 0; }
-        .marquee-content { display: flex; gap: 4rem; animation: scroll 30s linear infinite; }
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        /* Textura de Ruido (Grit) */
+        .noise::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
 
-        /* Estilos de Proyectos */
-        .project-card img { transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s; opacity: 0.6; }
-        .project-card:hover img { transform: scale(1.05); opacity: 1; }
-        
-        input, textarea { border-bottom: 1px solid #262626; background: transparent; transition: border-color 0.4s; }
-        input:focus, textarea:focus { border-color: #fff; outline: none; }
-        
-        .noise { position: fixed; inset: 0; z-index: 99; pointer-events: none; opacity: 0.03; background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23n)"/%3E%3C/svg%3E'); }
+        /* Fondo Fluido Animado */
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.25;
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-10%, -10%) scale(1); }
+            to { transform: translate(20%, 20%) scale(1.2); }
+        }
+
+        /* Marquee infinito corregido */
+        .marquee-container {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+            border-top: 1px solid #111;
+            padding: 60px 0;
+        }
+        .marquee-content {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll 30s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Navegación que aparece al scroll */
+        nav {
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-hidden { transform: translateY(-100%); opacity: 0; }
+        .nav-visible { transform: translateY(0); opacity: 1; }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #111;
+        }
+        .project-card img {
+            transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
+            filter: grayscale(100%) brightness(0.7);
+        }
+        .project-card:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%) brightness(1);
+        }
     </style>
 </head>
-<body>
-    <div class="noise"></div>
-    
-    <div class="fluid-bg">
-        <div class="blob w-[50vw] h-[50vw] bg-neutral-800 top-[-10%] left-[-10%]"></div>
-        <div class="blob w-[60vw] h-[60vw] bg-stone-900 top-[20%] right-[-10%]" style="animation-delay: -5s;"></div>
-        <div class="blob w-[70vw] h-[70vw] bg-zinc-900 bottom-[-20%] left-[20%]" style="animation-delay: -10s;"></div>
-    </div>
+<body class="noise">
 
-    <nav class="fixed top-0 w-full z-50 flex justify-between px-6 py-8 md:px-20 mix-blend-difference items-center">
-        <div class="font-bold tracking-widest text-sm uppercase">The unAgency</div>
-        <div class="hidden md:flex gap-12 text-[10px] tracking-[0.3em] uppercase">
-            <a href="#projects" class="hover:text-neutral-400">Work</a>
-            <a href="#about" class="hover:text-neutral-400">Agency</a>
-            <a href="#contact" class="hover:text-neutral-400">Contact</a>
+    <div class="blob w-[600px] h-[600px] bg-neutral-800 top-[-100px] left-[-100px]"></div>
+    <div class="blob w-[500px] h-[500px] bg-zinc-900 bottom-[-100px] right-[-100px]" style="animation-delay: -5s;"></div>
+
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-8 md:px-20 mix-blend-difference nav-hidden">
+        <div class="text-sm font-bold tracking-[0.3em] uppercase">The unAgency</div>
+        <div class="flex gap-12 text-[10px] tracking-[0.4em] uppercase font-bold">
+            <a href="#projects" class="hover:text-neutral-500 transition-colors">Work</a>
+            <a href="#about" class="hover:text-neutral-500 transition-colors">Agency</a>
+            <a href="#contact" class="hover:text-neutral-500 transition-colors">Contact</a>
         </div>
     </nav>
 
     <section class="h-screen flex flex-col items-center justify-center relative">
-        <img src="assets/73fc6d9c98f3c8b428987b1b0c9ff057d036651c.png" class="w-24 mb-12" data-aos="fade-down">
-        <h1 class="text-[12vw] leading-none font-bold tracking-tighter uppercase text-center" data-aos="zoom-out">
-            The unAgency
-        </h1>
-        <div class="mt-12 text-center" data-aos="fade-up" data-aos-delay="400">
-            <span class="text-[10px] tracking-[0.5em] text-neutral-500 uppercase italic">The glitch in the agency model</span>
+        <div class="z-10 text-center" data-aos="zoom-in" data-aos-duration="1500">
+            <img src="assets/73fc6d9c98f3c8b428987b1b0c9ff057d036651c.png" class="w-20 mx-auto mb-10 opacity-80" alt="Logo">
+            <h1 class="text-[14vw] md:text-[12vw] font-bold leading-none tracking-tighter uppercase">
+                The unAgency
+            </h1>
+            <p class="mt-6 text-[10px] tracking-[0.6em] text-neutral-600 uppercase italic">
+                The glitch in the agency model
+            </p>
+        </div>
+        
+        <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] select-none pointer-events-none">
+            <h2 class="text-[25vw] font-bold">UNAGENCY</h2>
         </div>
     </section>
 
     <section id="about" class="py-40 px-6 md:px-20">
         <div class="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-20">
             <div class="lg:col-span-4 sticky top-40 h-fit">
-                <h2 class="text-4xl font-mono uppercase" data-aos="fade-right">About</h2>
+                <h2 class="text-4xl font-mono uppercase text-neutral-700" data-aos="fade-right">01 / About</h2>
             </div>
             <div class="lg:col-span-8">
                 <h3 class="text-4xl md:text-7xl font-light leading-tight mb-20" data-aos="fade-up">
-                    We are the <span class="italic">glitch</span> in the model. Obsessed with the absolute.
+                    We are the <span class="italic font-bold">glitch</span> in the model. Collective of rogue creatives.
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-neutral-500 text-sm mb-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-neutral-500 text-sm leading-relaxed border-t border-neutral-900 pt-16">
                     <p>Traditional agencies sell time. We sell impact. Surgically removed middle-management. Pure potency.</p>
-                    <p>Direct access to elite talent. Radical transparency. Engineering market dominance.</p>
+                    <p>Radical transparency. We don't just build products; we engineer market dominance.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="marquee">
-        <div class="marquee-content text-4xl md:text-6xl font-bold text-neutral-800 uppercase italic">
-            <span>JMRPACKING</span> <span>TBG GOLF</span> <span>BELTECH</span> <span>CASTELLANA</span> <span>NUWA STONE</span> <span>NORTHWEST</span>
-            <span>JMRPACKING</span> <span>TBG GOLF</span> <span>BELTECH</span> <span>CASTELLANA</span> <span>NUWA STONE</span> <span>NORTHWEST</span>
+    <div class="marquee-container">
+        <div class="marquee-content text-4xl md:text-6xl font-bold text-neutral-900 uppercase italic">
+            <span>JMRPACKING</span> <span class="text-neutral-800">TBG GOLF</span> <span>BELTECH</span> <span class="text-neutral-800">CASTELLANA</span> <span>NUWA STONE</span> <span>NORTHWEST</span>
+            <span>JMRPACKING</span> <span class="text-neutral-800">TBG GOLF</span> <span>BELTECH</span> <span class="text-neutral-800">CASTELLANA</span> <span>NUWA STONE</span> <span>NORTHWEST</span>
         </div>
     </div>
 
     <section id="projects" class="py-40 px-6 md:px-20">
         <div class="max-w-[1800px] mx-auto">
-            <h2 class="text-4xl font-mono mb-20" data-aos="fade-right">PROJECTS</h2>
-            <div class="grid grid-cols-1 md:grid-cols-6 gap-8 md:gap-16">
+            <h2 class="text-4xl font-mono mb-20 text-neutral-700 uppercase" data-aos="fade-right">02 / Selected Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-6 gap-6 md:gap-12">
+                
                 <div class="md:col-span-6 project-card group" data-aos="fade-up">
-                    <div class="aspect-[21/9] overflow-hidden border border-neutral-900 mb-6">
+                    <div class="aspect-[21/9] overflow-hidden">
                         <img src="assets/8fdb56a539d6e9e8ce6cf447c18ae75f93c48bd2.png" class="w-full h-full object-cover">
                     </div>
-                    <div class="flex justify-between border-b border-neutral-800 pb-4">
-                        <span class="text-2xl font-mono italic">TEQUILA CASAREY</span>
-                        <span class="text-[10px] text-neutral-500 uppercase tracking-widest">Packaging Design</span>
+                    <div class="p-8 flex justify-between items-center border-t border-neutral-900">
+                        <span class="text-2xl font-bold italic">TEQUILA CASAREY</span>
+                        <span class="text-[10px] tracking-widest text-neutral-600">PACKAGING</span>
                     </div>
                 </div>
+
                 <div class="md:col-span-3 project-card group" data-aos="fade-right">
-                    <div class="aspect-[4/3] overflow-hidden border border-neutral-900 mb-6">
+                    <div class="aspect-[4/3] overflow-hidden">
                         <img src="assets/283b5359742fffc9889b0e4e829f4226488a5f47.png" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="text-xl font-mono italic">GALLUS</h3>
+                    <div class="p-8 border-t border-neutral-900 italic text-xl">GALLUS</div>
                 </div>
+
                 <div class="md:col-span-3 project-card group" data-aos="fade-left">
-                    <div class="aspect-[4/3] overflow-hidden border border-neutral-900 mb-6">
+                    <div class="aspect-[4/3] overflow-hidden">
                         <img src="assets/4f63484a785ea90bf1c37f921dc7bccd2e709b79.png" class="w-full h-full object-cover">
                     </div>
-                    <h3 class="text-xl font-mono italic">AVE DE FUEGO</h3>
+                    <div class="p-8 border-t border-neutral-900 italic text-xl">AVE DE FUEGO</div>
                 </div>
+
             </div>
         </div>
     </section>
 
     <footer id="contact" class="py-40 px-6 md:px-20 border-t border-neutral-900">
         <div class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32">
-            <div data-aos="fade-right">
-                <h2 class="text-6xl md:text-8xl font-mono tracking-tighter uppercase mb-16">Let's Talk</h2>
+            <div data-aos="fade-up">
+                <h2 class="text-7xl md:text-9xl font-bold tracking-tighter uppercase mb-16">Talk</h2>
                 <form class="space-y-12">
-                    <input type="text" placeholder="NAME" class="w-full py-6 text-xl font-mono">
-                    <input type="email" placeholder="EMAIL" class="w-full py-6 text-xl font-mono">
-                    <textarea placeholder="MESSAGE" rows="1" class="w-full py-6 text-xl font-mono resize-none"></textarea>
-                    <button class="text-xl uppercase tracking-widest pt-10 hover:italic transition-all">Send Inquiry →</button>
+                    <input type="text" placeholder="NAME" class="w-full py-6 text-xl uppercase font-bold tracking-widest">
+                    <input type="email" placeholder="EMAIL" class="w-full py-6 text-xl uppercase font-bold tracking-widest">
+                    <textarea placeholder="MESSAGE" rows="1" class="w-full py-6 text-xl uppercase font-bold tracking-widest resize-none"></textarea>
+                    <button class="text-2xl uppercase tracking-tighter italic font-bold hover:translate-x-4 transition-transform duration-500">Send Inquiry →</button>
                 </form>
             </div>
-            <div class="flex flex-col justify-between" data-aos="fade-left">
-                <div class="border-t border-neutral-800 pt-12">
-                    <h3 class="text-xs text-neutral-500 uppercase tracking-[0.3em] mb-12">Locations</h3>
-                    <div class="space-y-6 text-3xl font-light">
-                        <div class="flex justify-between items-center group cursor-default">
-                            <span class="group-hover:italic transition-all">San Diego</span>
-                            <span class="text-xs text-neutral-700 font-mono">USA / PST</span>
-                        </div>
-                        <div class="flex justify-between items-center group cursor-default">
-                            <span class="group-hover:italic transition-all">London</span>
-                            <span class="text-xs text-neutral-700 font-mono">UK / GMT</span>
-                        </div>
+            <div class="flex flex-col justify-between pt-10" data-aos="fade-left">
+                <div class="border-t border-neutral-900 pt-10">
+                    <span class="text-neutral-700 text-[10px] uppercase tracking-[0.4em] block mb-10">Global presence</span>
+                    <div class="text-4xl font-light space-y-4">
+                        <p class="hover:italic cursor-default">San Diego <span class="text-xs text-neutral-800 ml-4">USA</span></p>
+                        <p class="hover:italic cursor-default">London <span class="text-xs text-neutral-800 ml-4">UK</span></p>
                     </div>
                 </div>
-                <div class="pt-20">
-                    <a href="mailto:hello@theunagencyco.com" class="text-2xl hover:italic transition-all">hello@theunagencyco.com</a>
-                    <div class="mt-12 text-[10px] text-neutral-700 uppercase tracking-widest">© 2026 The unAgency</div>
+                <div class="mt-20">
+                    <a href="mailto:hello@theunagencyco.com" class="text-2xl border-b border-white pb-2 hover:text-neutral-400 transition-colors">hello@theunagencyco.com</a>
+                    <p class="text-[10px] text-neutral-800 mt-12 tracking-widest">© 2026 THE UNAGENCY CO.</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        AOS.init({ duration: 1200, once: true });
-        
-        // Efecto Parallax suave para el Hero
+        AOS.init({ duration: 1000, once: true, easing: 'ease-out-quart' });
+
+        // Lógica de Navegación (Aparece al hacer scroll)
+        const nav = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 150) {
+                nav.classList.remove('nav-hidden');
+                nav.classList.add('nav-visible');
+            } else {
+                nav.classList.add('nav-hidden');
+                nav.classList.remove('nav-visible');
+            }
+        });
+
+        // Parallax para el Hero (Sutil)
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
-            const hero = document.querySelector('h1');
-            hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+            document.querySelector('h1').style.transform = `translateY(${scrolled * 0.2}px)`;
         });
     </script>
 </body>
