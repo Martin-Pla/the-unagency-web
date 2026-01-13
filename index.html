@@ -1,244 +1,221 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The unAgency</title>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- GSAP for animations -->
-  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
-  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
-
-  <style>
-    :root {
-      --mono: 'Space Mono', monospace;
-      --sans: 'Inter', sans-serif;
-      --bg: #0a0a0a;
-      --fg: #ffffff;
-      --muted: #888;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--fg);
-      font-family: var(--sans);
-      overflow-x: hidden;
-    }
-
-    section {
-      padding: 120px 5vw;
-      position: relative;
-    }
-
-    h1, h2, h3 {
-      font-family: var(--mono);
-      letter-spacing: -0.04em;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 32px 5vw;
-      display: flex;
-      justify-content: space-between;
-      z-index: 50;
-      mix-blend-mode: difference;
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.2em;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 40px;
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .hero img {
-      width: 80vw;
-      max-width: 900px;
-      margin-bottom: 40px;
-    }
-
-    .hero p {
-      font-family: var(--mono);
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      font-size: 14px;
-      color: var(--muted);
-      max-width: 600px;
-      margin: auto;
-    }
-
-    /* ABOUT */
-    .about {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 80px;
-    }
-
-    .about h2 {
-      font-size: 48px;
-    }
-
-    .about h3 {
-      font-family: var(--sans);
-      font-weight: 300;
-      font-size: clamp(32px, 5vw, 64px);
-      margin-bottom: 40px;
-      color: #ddd;
-    }
-
-    .about p {
-      color: #aaa;
-      line-height: 1.6;
-      font-size: 16px;
-    }
-
-    /* CONTACT */
-    footer {
-      border-top: 1px solid #222;
-    }
-
-    input, textarea {
-      width: 100%;
-      background: none;
-      border: none;
-      border-bottom: 1px solid #444;
-      padding: 16px 0;
-      font-family: var(--mono);
-      font-size: 18px;
-      color: white;
-      margin-bottom: 40px;
-    }
-
-    button {
-      background: none;
-      border: none;
-      color: white;
-      font-family: var(--mono);
-      letter-spacing: 0.2em;
-      cursor: pointer;
-    }
-
-    /* MOBILE */
-    @media (max-width: 900px) {
-      .about {
-        grid-template-columns: 1fr;
-      }
-
-      nav a {
-        margin-left: 20px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The unAgency | Luxury Branding & Packaging</title>
+    <meta name="description"
+        content="The unAgency is an exclusive creative boutique specializing in premium branding and packaging for the luxury spirits industry.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
-  <!-- NAV -->
-  <nav>
-    <div>THE UNAGENCY</div>
-    <div>
-      <a href="#about">AGENCY</a>
-      <a href="#contact">CONTACT</a>
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <img src="assets/logo.png" alt="The unAgency Logo" class="loader-logo">
+        </div>
     </div>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div>
-      <img src="logo.png" alt="The unAgency">
-      <p>
-        Where creativity meets strategy.<br>
-        We don’t follow the rules — we rewrite them.
-      </p>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="about">
-      <h2>ABOUT</h2>
-      <div>
-        <h3>
-          We are the <em>glitch</em> in the agency model.
-        </h3>
-        <p>
-          Traditional agencies sell time and bloated processes.
-          We sell impact. No middle management. No noise.
-          Only elite talent and relentless execution.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <footer id="contact">
-    <section>
-      <h2 style="font-size:64px;margin-bottom:60px;">LET’S TALK</h2>
-
-      <input type="text" placeholder="NAME">
-      <input type="email" placeholder="EMAIL">
-      <textarea rows="1" placeholder="MESSAGE"></textarea>
-
-      <button>SEND INQUIRY →</button>
-
-      <div style="margin-top:120px;font-family:var(--mono);font-size:12px;color:#666;display:flex;justify-content:space-between;">
-        <span>© 2026 The unAgency</span>
-        <span>Instagram · LinkedIn</span>
-      </div>
-    </section>
-  </footer>
-
-  <!-- ANIMATIONS -->
-  <script>
-    gsap.registerPlugin(ScrollTrigger);
-
-    gsap.from(".hero img", {
-      opacity: 0,
-      scale: 0.9,
-      duration: 1.5,
-      ease: "power3.out"
-    });
-
-    gsap.from(".about h2", {
-      scrollTrigger: ".about",
-      x: -60,
-      opacity: 0,
-      duration: 1
-    });
-
-    gsap.from(".about h3, .about p", {
-      scrollTrigger: ".about",
-      y: 60,
-      opacity: 0,
-      stagger: 0.2,
-      duration: 1
-    });
-  </script>
-
+    <nav class="nav-minimal">
+        <div class="nav-logo">
+            <img src="assets/logo.png" alt="The unAgency Logo">
+        </div>
+        <div class="nav-links">
+            <a href="#portfolio" class="nav-item">Portfolio</a>
+            <a href="#services" class="nav-item">Philosophy</a>
+            <a href="#contact" class="nav-item">Connect</a>
+        </div>
+        <button class="menu-toggle">
+            <i data-lucide="menu"></i>
+        </button>
+    </nav>
+    <main>
+        <section id="hero" class="hero">
+            <div class="hero-bg-accent"></div>
+            <div class="container">
+                <div class="hero-content">
+                    <p class="hero-tagline">Crafting Silhouettes of Elegance</p>
+                    <h1 class="hero-title">Beyond Branding.<br><span class="italic">The Alchemy of Desire.</span></h1>
+                    <div class="hero-actions">
+                        <a href="#portfolio" class="btn btn-primary">Discover the Work</a>
+                        <a href="#contact" class="btn btn-outline">Start a Project</a>
+                    </div>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <span>Scroll</span>
+                <div class="line"></div>
+            </div>
+        </section>
+        <section id="portfolio" class="portfolio">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Selected Works</h2>
+                    <p class="section-subtitle">Exquisite packaging for the world's finest spirits.</p>
+                </div>
+                <div class="portfolio-grid" id="portfolio-grid">
+                    <div class="project-card" data-speed="0.04" data-stagger="0.1">
+                        <div class="card-image">
+                            <img src="assets/suhar.jpg" alt="Suhar Rioja">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Rioja / Packaging</span>
+                            <h3>Suhar Signature</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="-0.04" data-stagger="0.2">
+                        <div class="card-image">
+                            <img src="assets/ave-de-fuego.jpg" alt="Ave de Fuego">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Tequila / Structural Design</span>
+                            <h3>Ave de Fuego</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="0.06" data-stagger="0.1">
+                        <div class="card-image">
+                            <img src="assets/what-the-flock.png" alt="What the Flock">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">RTD / Brand Identity</span>
+                            <h3>What the Flock</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="-0.03" data-stagger="0.2">
+                        <div class="card-image">
+                            <img src="assets/brg-identity.png" alt="BRG Identity">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Visual Identity / Motion</span>
+                            <h3>BRG Signature</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="0.05" data-stagger="0.1">
+                        <div class="card-image">
+                            <img src="assets/casarey.jpg" alt="Casarey Tequila">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Tequila / Gran Reserva</span>
+                            <h3>Casarey</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="-0.05" data-stagger="0.2">
+                        <div class="card-image">
+                            <img src="assets/akbal.jpg" alt="Akbal Tequila">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Tequila / Extra Añejo</span>
+                            <h3>Akbal</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="0.07" data-stagger="0.1">
+                        <div class="card-image">
+                            <img src="assets/agua-salada.png" alt="Agua Salada">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Agua Salada / Branding</span>
+                            <h3>Agua Salada</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="-0.04" data-stagger="0.2">
+                        <div class="card-image">
+                            <img src="assets/gallus.jpg" alt="Gallus">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Distilled / Identity</span>
+                            <h3>Gallus</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="0.05" data-stagger="0.1">
+                        <div class="card-image">
+                            <img src="assets/tres-diablos.jpg" alt="Tres Diablos">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Tequila Gold / Art Direction</span>
+                            <h3>Tres Diablos</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="-0.06" data-stagger="0.2">
+                        <div class="card-image">
+                            <img src="assets/marielen.jpg" alt="Marielen Rioja">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Rioja / Heritage</span>
+                            <h3>Marielen</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="0.04" data-stagger="0.1">
+                        <div class="card-image">
+                            <img src="assets/black-agnes.jpg" alt="Black Agnes">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Scotch / Single Malt</span>
+                            <h3>Black Agnes</h3>
+                        </div>
+                    </div>
+                    <div class="project-card" data-speed="-0.03" data-stagger="0.2">
+                        <div class="card-image">
+                            <img src="assets/nuwa-stone.png" alt="Nuwa Stone">
+                        </div>
+                        <div class="card-info">
+                            <span class="category">Packaging / Stone Craft</span>
+                            <h3>Nuwa Stone</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="services" class="services">
+            <div class="container">
+                <div class="services-content">
+                    <div class="services-text">
+                        <h2 class="section-title">The unProcess</h2>
+                        <p>We don't follow trends. We create archetypes. Our approach is rooted in the psychology of
+                            luxury, where every curve of a bottle and every texture of a label tells a story of heritage
+                            and exclusivity.</p>
+                        <ul class="services-list">
+                            <li><i data-lucide="check"></i> Strategic Brand Identity</li>
+                            <li><i data-lucide="check"></i> Industrial Design & Structural Packaging</li>
+                            <li><i data-lucide="check"></i> Material Exploration & Art Direction</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="contact" class="contact">
+            <div class="container">
+                <div class="contact-card">
+                    <h2 class="section-title">Let's Craft the Future</h2>
+                    <p>Exclusive collaborations for visionary brands.</p>
+                    <a href="mailto:hello@theunagency.com" class="email-link">hello@theunagency.com</a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="assets/logo.png" alt="The unAgency Logo">
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 The unAgency. All rights reserved.</p>
+                <div class="socials">
+                    <a href="#">Instagram</a>
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
